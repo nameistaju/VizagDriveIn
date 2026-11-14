@@ -1,8 +1,10 @@
 import HeroArrival from "@/components/sections/HeroArrival";
 import IntroStrip from "@/components/sections/IntroStrip";
 import Stalls from "@/components/sections/Stalls";
+import FoodLoop from "@/components/sections/FoodLoop";
 import BiryaniShowcase from "@/components/sections/BiryaniShowcase";
 import MenuSection from "@/components/sections/MenuSection";
+import LeafFeastShowcase from "@/components/sections/LeafFeastShowcase";
 import PlayZone from "@/components/sections/PlayZone";
 import Seating from "@/components/sections/Seating";
 import Visit from "@/components/sections/Visit";
@@ -16,22 +18,28 @@ export default function Home() {
       {/* 2. IntroStrip: Night street food festival vibe & concept manifesto */}
       <IntroStrip />
 
-      {/* 3. Stalls: 8 multi-cuisine stalls showcase with cursor pill interaction */}
+      {/* 3. Stalls: 11 multi-cuisine stalls promenade */}
       <Stalls />
 
-      {/* 4. BiryaniShowcase: Scroll-scrubbed biryani unwrapping sensory experience */}
+      {/* 4. FoodLoop: Transparent horizontal loop scroll of cutout food dishes */}
+      <FoodLoop />
+
+      {/* 5. BiryaniShowcase: Scroll-scrubbed banana leaf biryani unwrap experience */}
       <BiryaniShowcase />
 
-      {/* 5. MenuSection: Bold editorial tasting menu with image hover previews */}
+      {/* 6. MenuSection: Bold editorial tasting menu with image hover previews */}
       <MenuSection />
 
-      {/* 6. PlayZone: 8-Ball pool lounge & box cricket turf arena */}
+      {/* 7. LeafFeastShowcase: Scroll-scrubbed coastal banana leaf feast ritual */}
+      <LeafFeastShowcase />
+
+      {/* 8. PlayZone: 8-Ball pool lounge & box cricket turf arena */}
       <PlayZone />
 
-      {/* 7. Seating: Open-air seating vs climate-controlled indoor AC */}
+      {/* 9. Seating: Open-air seating vs climate-controlled indoor AC */}
       <Seating />
 
-      {/* 8. Visit: Timings, map directions, parking details, and WhatsApp connect */}
+      {/* 10. Visit: Timings, map directions, parking details, and WhatsApp connect */}
       <Visit />
     </main>
   );

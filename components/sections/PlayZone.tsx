@@ -20,6 +20,28 @@ export default function PlayZone() {
       aria-label="Play Zone: 8-Ball Pool & Cricket Box"
       className="relative w-full bg-charcoal text-cream py-24 md:py-32 overflow-hidden border-b border-cream/10"
     >
+      {/* Aesthetic TU-142 Aircraft Museum Sticker */}
+      <div className="absolute right-6 lg:right-16 top-16 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/TU-142%20Aircraft%20Museum%20Exhibit.png"
+          alt="TU-142 Aircraft Museum"
+          width={150}
+          height={150}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] -rotate-6 select-none opacity-90"
+        />
+      </div>
+
+      {/* Aesthetic Kambalakonda Wildlife Sanctuary Sticker */}
+      <div className="absolute left-6 lg:left-12 bottom-12 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Kambalakonda%20Wildlife%20Sanctuary%20Diorama.png"
+          alt="Kambalakonda Wildlife Sanctuary"
+          width={135}
+          height={135}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] rotate-6 select-none opacity-90"
+        />
+      </div>
+
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         {/* Section Header */}
         <div className="max-w-2xl mb-14">

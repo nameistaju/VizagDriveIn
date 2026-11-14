@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Manrope } from "next/font/google";
+import { Playfair_Display } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -15,11 +16,31 @@ const fontDisplay = Playfair_Display({
   weight: ["400", "600", "700", "900"],
 });
 
-const fontSans = Manrope({
-  subsets: ["latin"],
+const fontUbuntu = localFont({
+  src: [
+    {
+      path: "../public/fonts/image-1.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/image-2.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/image-3.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/image-4.woff2",
+      weight: "700",
+      style: "italic",
+    },
+  ],
   variable: "--font-sans",
   display: "swap",
-  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -49,7 +70,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontDisplay.variable} ${fontSans.variable} scroll-smooth`}
+      className={`${fontDisplay.variable} ${fontUbuntu.variable} scroll-smooth`}
     >
       <body className="bg-charcoal text-cream min-h-screen relative antialiased selection:bg-[#E00902] selection:text-white">
         <SmoothScrollProvider>

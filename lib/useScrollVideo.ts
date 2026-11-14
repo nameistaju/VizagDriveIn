@@ -8,6 +8,8 @@ export interface UseScrollVideoOptions {
   videoRef: React.RefObject<HTMLVideoElement | null>;
   triggerRef: React.RefObject<HTMLElement | null>;
   scrollLength?: string;
+  mobileScrollLength?: string;
+  pinOnMobile?: boolean;
   desktopSrc?: string;
   mobileSrc?: string;
   damping?: number;
@@ -26,6 +28,8 @@ export function useScrollVideo({
   videoRef,
   triggerRef,
   scrollLength,
+  mobileScrollLength,
+  pinOnMobile = true,
   desktopSrc = "/video/hero-arrival-scrub.mp4",
   mobileSrc = "/video/hero-arrival-scrub-720.mp4",
   damping = 0.1,
@@ -152,8 +156,6 @@ export function useScrollVideo({
       if (!isMounted || !trigger) return;
 
       const isMobile = window.innerWidth < 768;
-      const defaultLength = isMobile ? "+=300%" : "+=400%";
-      const endLength = scrollLength || defaultLength;
 
       // Kill any previous trigger instance
       if (scrollTriggerRef.current) {
@@ -169,7 +171,36 @@ export function useScrollVideo({
         }
       }
 
-      // Create pin & scrub trigger
+      // If mobile and pinning is disabled, scrub video in natural flow with NO pin-spacer
+      if (isMobile && !pinOnMobile) {
+        scrollTriggerRef.current = ScrollTrigger.create({
+          trigger: trigger,
+          start: "top 85%",
+          end: "bottom 15%",
+          scrub: 0.8,
+          fastScrollEnd: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            targetProgressRef.current = self.progress;
+          },
+        });
+
+        ScrollTrigger.refresh();
+        setIsReady(true);
+
+        if (!rafIdRef.current) {
+          rafIdRef.current = requestAnimationFrame(tick);
+        }
+        return;
+      }
+
+      // For pinned sections: compact on mobile, expansive on desktop
+      const defaultLength = isMobile ? "+=110%" : "+=240%";
+      const endLength = isMobile
+        ? (mobileScrollLength || defaultLength)
+        : (scrollLength || defaultLength);
+
+      // Create pin & scrub trigger (anticipatePin omitted to prevent premature overlapping)
       scrollTriggerRef.current = ScrollTrigger.create({
         trigger: trigger,
         start: "top top",
@@ -177,7 +208,6 @@ export function useScrollVideo({
         pin: true,
         pinSpacing: true,
         scrub: true,
-        anticipatePin: 1,
         fastScrollEnd: true,
         invalidateOnRefresh: true,
         onUpdate: (self) => {
@@ -237,7 +267,7 @@ export function useScrollVideo({
       video.removeEventListener("loadedmetadata", handleMediaReady);
       video.removeEventListener("loadeddata", handleMediaReady);
     };
-  }, [videoRef, triggerRef, scrollLength, activeSrc, damping, onProgress]);
+  }, [videoRef, triggerRef, scrollLength, mobileScrollLength, pinOnMobile, activeSrc, damping, onProgress]);
 
   return {
     isReady,

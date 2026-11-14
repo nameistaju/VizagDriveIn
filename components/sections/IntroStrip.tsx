@@ -1,6 +1,9 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import Image from "next/image";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 interface StatusInfo {
   isOpen: boolean;
@@ -9,6 +12,26 @@ interface StatusInfo {
   currentTimeString: string;
 }
 
+const WORDS = [
+  { text: "Visakhapatnam’s", isAccent: false },
+  { text: "moonlit", isAccent: false },
+  { text: "gathering", isAccent: false },
+  { text: "ground", isAccent: false },
+  { text: "where", isAccent: false },
+  { text: "curated", isAccent: false },
+  { text: "street", isAccent: false },
+  { text: "feasts,", isAccent: false },
+  { text: "lively", isAccent: false },
+  { text: "box", isAccent: false },
+  { text: "cricket", isAccent: false },
+  { text: "clashes,", isAccent: false },
+  { text: "and", isAccent: false },
+  { text: "coastal", isAccent: false },
+  { text: "night", isAccent: false },
+  { text: "breezes", isAccent: false },
+  { text: "converge.", isAccent: true },
+];
+
 export default function IntroStrip() {
   const [status, setStatus] = useState<StatusInfo>({
     isOpen: true,
@@ -16,6 +39,11 @@ export default function IntroStrip() {
     subText: "5:00 PM – Late",
     currentTimeString: "",
   });
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const wordsRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const computeKolkataStatus = () => {
@@ -87,6 +115,83 @@ export default function IntroStrip() {
     return () => clearInterval(interval);
   }, []);
 
+  // Pinned scroll-scrub word coloring animation
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (prefersReducedMotion) {
+      wordsRef.current.forEach((span, i) => {
+        if (!span) return;
+        span.style.color = WORDS[i].isAccent ? "#E00902" : "#f3e9dc";
+        span.style.opacity = "1";
+      });
+      return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const isMobile = window.innerWidth < 768;
+    const scrollDistance = isMobile ? window.innerHeight * 1.05 : window.innerHeight * 1.35;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: `+=${scrollDistance}`,
+          pin: true,
+          pinSpacing: true,
+          scrub: 0.5,
+          fastScrollEnd: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (progressBarRef.current) {
+              progressBarRef.current.style.width = `${self.progress * 100}%`;
+            }
+          },
+        },
+      });
+
+      // Scrub through each word, illuminating it from dim to fully colored
+      wordsRef.current.forEach((wordSpan, index) => {
+        if (!wordSpan) return;
+        const isAccent = WORDS[index].isAccent;
+
+        tl.to(
+          wordSpan,
+          {
+            color: isAccent ? "#E00902" : "#f3e9dc",
+            opacity: 1,
+            ease: "none",
+            duration: 0.45,
+          },
+          index * 0.35
+        );
+      });
+
+      // Feature tags brighten as text coloring completes
+      if (featuresRef.current) {
+        tl.fromTo(
+          featuresRef.current,
+          { opacity: 0.35, y: 8 },
+          { opacity: 1, y: 0, duration: 0.8, ease: "power1.out" },
+          ">-0.4"
+        );
+      }
+    }, section);
+
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+
   const features = [
     "Open-air seating",
     "8+ food stalls",
@@ -96,13 +201,34 @@ export default function IntroStrip() {
 
   return (
     <section
+      ref={sectionRef}
       id="intro-strip"
       aria-label="Welcome and Experience Concept"
-      className="relative z-20 w-full bg-[#14110f] text-cream border-y border-cream/10 py-20 md:py-28 overflow-hidden block"
+      className="relative z-20 w-full min-h-screen bg-[#14110f] text-cream border-y border-cream/10 flex flex-col justify-between py-12 sm:py-16 md:py-20 overflow-hidden select-none"
     >
-      <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center max-w-5xl">
-        {/* Real-time Open/Closed indicator (clean text, no pill container) */}
-        <div className="flex items-center gap-2.5 text-xs font-mono tracking-wider mb-8">
+      {/* Aesthetic Landmark Stickers (Used as-is, no borders/cards) */}
+      <div className="absolute left-4 lg:left-12 top-28 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Kailasagiri%20Shiva%20Monument%20Cutout.png"
+          alt="Kailasagiri Shiva Monument"
+          width={130}
+          height={130}
+          className="object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] -rotate-6 select-none opacity-90"
+        />
+      </div>
+      <div className="absolute right-4 lg:right-12 bottom-24 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Vizag%20Zoo%20Entrance%20Arch.png"
+          alt="Vizag Zoo Entrance Arch"
+          width={140}
+          height={140}
+          className="object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.7)] rotate-6 select-none opacity-90"
+        />
+      </div>
+
+      {/* Top Header: Real-time Open/Closed indicator */}
+      <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+        <div className="flex items-center gap-2.5 text-xs font-mono tracking-wider">
           <span className="relative flex h-2 w-2">
             {status.isOpen ? (
               <>
@@ -130,18 +256,39 @@ export default function IntroStrip() {
             </span>
           )}
         </div>
+      </div>
 
-        {/* Big One Sentence Copy */}
-        <p className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.25] md:leading-[1.2] text-cream tracking-tight max-w-4xl">
-          Visakhapatnam’s moonlit gathering ground where curated street feasts,
-          lively box cricket clashes, and coastal night breezes{" "}
-          <span className="italic font-normal text-[#E00902] underline decoration-[#E00902]/30 underline-offset-8">
-            converge.
-          </span>
+      {/* Main Center Headline: Word-by-Word Scroll Color Reveal */}
+      <div className="container mx-auto px-6 md:px-12 relative z-10 flex flex-col items-center text-center max-w-5xl my-auto py-8">
+        <p className="font-display text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-normal leading-[1.3] md:leading-[1.25] tracking-tight max-w-4xl flex flex-wrap justify-center items-center">
+          {WORDS.map((word, i) => (
+            <span
+              key={`${word.text}-${i}`}
+              ref={(el) => {
+                wordsRef.current[i] = el;
+              }}
+              style={{
+                color: "rgba(243, 233, 220, 0.2)",
+                opacity: 0.35,
+              }}
+              className={`inline-block mr-[0.25em] will-change-[color,opacity] ${
+                word.isAccent
+                  ? "italic font-normal underline decoration-[#E00902]/30 underline-offset-8"
+                  : ""
+              }`}
+            >
+              {word.text}
+            </span>
+          ))}
         </p>
+      </div>
 
-        {/* Feature list */}
-        <div className="mt-12 flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs sm:text-sm font-sans tracking-wide text-cream/75">
+      {/* Bottom Footer: Feature list + Minimal scrub progress line */}
+      <div className="container mx-auto px-6 relative z-10 flex flex-col items-center text-center">
+        <div
+          ref={featuresRef}
+          className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-xs sm:text-sm font-sans tracking-wide text-cream/75 transition-opacity"
+        >
           {features.map((feat, i) => (
             <React.Fragment key={feat}>
               {i > 0 && <span className="text-[#E00902]/40">•</span>}
@@ -150,6 +297,14 @@ export default function IntroStrip() {
           ))}
         </div>
       </div>
+
+      {/* Subtle bottom progress bar indicating completion before unlock */}
+      <div
+        ref={progressBarRef}
+        className="absolute bottom-0 left-0 h-[2px] bg-[#E00902] z-30 transition-all duration-75 pointer-events-none"
+        style={{ width: "0%" }}
+        aria-hidden="true"
+      />
     </section>
   );
 }

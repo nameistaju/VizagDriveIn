@@ -5,6 +5,17 @@ import { siteConfig } from "@/data/site";
 export default function Footer() {
   return (
     <footer className="w-full bg-black text-cream relative overflow-hidden pt-12 border-t border-cream/5">
+      {/* Aesthetic Tropical Waterfall Oasis Sticker */}
+      <div className="absolute right-8 top-6 pointer-events-none z-10 hidden lg:block">
+        <Image
+          src="/stickers/Tropical%20Waterfall%20Oasis%20Sticker.png"
+          alt="Tropical Waterfall Oasis"
+          width={110}
+          height={110}
+          className="object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] rotate-12 select-none opacity-85"
+        />
+      </div>
+
       {/* Main Streamlined Footer Content (Minimal info, blends with skyline) */}
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8 pb-10 border-b border-white/5">

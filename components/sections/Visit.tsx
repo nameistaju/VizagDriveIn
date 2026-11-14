@@ -11,6 +11,39 @@ export default function Visit() {
       aria-label="Plan Your Visit & Directions"
       className="relative w-full bg-charcoal text-cream py-24 md:py-32 overflow-hidden border-b border-cream/10"
     >
+      {/* Aesthetic Simhachalam Gopuram Sticker */}
+      <div className="absolute left-6 lg:left-14 top-24 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Simhachalam-Style%20Blue%20and%20Golden%20Gopuram.png"
+          alt="Simhachalam Gopuram"
+          width={130}
+          height={130}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] -rotate-6 select-none opacity-90"
+        />
+      </div>
+
+      {/* Aesthetic INS Kurusura Submarine Museum Sticker */}
+      <div className="absolute right-6 lg:right-14 top-24 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/INS%20Kurusura%20Submarine%20Museum%20Cutout.png"
+          alt="INS Kurusura Submarine Museum"
+          width={150}
+          height={150}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] rotate-6 select-none opacity-90"
+        />
+      </div>
+
+      {/* Aesthetic Brick Stupa Ruins Sticker */}
+      <div className="absolute right-8 lg:right-16 bottom-20 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Brick%20Stupa%20Ruins%20with%20Buddha%20Statue.png"
+          alt="Thotlakonda Stupa Ruins"
+          width={135}
+          height={135}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] -rotate-3 select-none opacity-90"
+        />
+      </div>
+
       <div className="container mx-auto px-6 md:px-12 relative z-10 max-w-5xl">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">

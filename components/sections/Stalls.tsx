@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,11 +10,23 @@ import { siteConfig } from "@/data/site";
 export default function Stalls() {
   const [selectedStall, setSelectedStall] = useState<FoodStall | null>(null);
   const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const bgTextRef = useRef<HTMLDivElement>(null);
 
+  // Detect mobile vs desktop
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Desktop ScrollTrigger Horizontal Scrub
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -22,7 +34,10 @@ export default function Stalls() {
       "(prefers-reduced-motion: reduce)"
     ).matches;
 
-    if (prefersReducedMotion) return;
+    // On mobile or reduced motion, use natural touch-scroll without vertical pin-spacers
+    if (window.innerWidth < 768 || prefersReducedMotion) {
+      return;
+    }
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -33,20 +48,17 @@ export default function Stalls() {
     if (!section || !track) return;
 
     const ctx = gsap.context(() => {
-      // Calculate total horizontal travel distance: width of track minus viewport + breathing room
-      const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth + 160);
+      const getDistance = () => Math.max(0, track.scrollWidth - window.innerWidth + 140);
 
-      // Main horizontal animation pinned & scrubbed with ScrollTrigger
-      const tween = gsap.to(track, {
+      gsap.to(track, {
         x: () => -getDistance(),
         ease: "none",
         scrollTrigger: {
           trigger: section,
           pin: true,
           pinSpacing: true,
-          anticipatePin: 1,
           start: "top top",
-          end: () => `+=${Math.max(2800, getDistance() * 1.1)}`,
+          end: () => `+=${Math.max(1800, getDistance() * 0.85)}`,
           scrub: 0.8,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -55,7 +67,6 @@ export default function Stalls() {
         },
       });
 
-      // Parallax background watermark text moving at slower pace
       if (bgText) {
         gsap.to(bgText, {
           x: () => -getDistance() * 0.35,
@@ -63,7 +74,7 @@ export default function Stalls() {
           scrollTrigger: {
             trigger: section,
             start: "top top",
-            end: () => `+=${Math.max(2800, getDistance() * 1.1)}`,
+            end: () => `+=${Math.max(1800, getDistance() * 0.85)}`,
             scrub: 1.1,
             invalidateOnRefresh: true,
           },
@@ -71,21 +82,38 @@ export default function Stalls() {
       }
     }, section);
 
-    // Refresh ScrollTrigger after DOM & images settle
-    const refreshTimer = setTimeout(() => {
+    const timer = setTimeout(() => {
       ScrollTrigger.refresh();
     }, 400);
 
     return () => {
-      clearTimeout(refreshTimer);
+      clearTimeout(timer);
       ctx.revert();
     };
-  }, []);
+  }, [isMobile]);
 
-  // Jump to next or previous stall with smooth scrolling
+  // Mobile horizontal scroll listener for updating active stall counter & progress
+  const handleMobileScroll = useCallback(() => {
+    if (!trackRef.current || !isMobile) return;
+    const track = trackRef.current;
+    const maxScroll = track.scrollWidth - track.clientWidth;
+    if (maxScroll <= 0) return;
+    const progress = Math.min(1, Math.max(0, track.scrollLeft / maxScroll));
+    setScrollProgress(progress);
+  }, [isMobile]);
+
+  // Navigation button handler for both mobile & desktop
   const handleStepScroll = (direction: number) => {
-    const stepAmount = window.innerHeight * 0.7;
-    window.scrollBy({ top: direction * stepAmount, behavior: "smooth" });
+    if (!trackRef.current) return;
+    if (isMobile) {
+      // On mobile, scroll track horizontally directly
+      const itemWidth = 280;
+      trackRef.current.scrollBy({ left: direction * itemWidth, behavior: "smooth" });
+    } else {
+      // On desktop, advance the page scroll
+      const stepAmount = window.innerHeight * 0.6;
+      window.scrollBy({ top: direction * stepAmount, behavior: "smooth" });
+    }
   };
 
   // Close modal on Escape
@@ -106,7 +134,7 @@ export default function Stalls() {
       ref={sectionRef}
       id="stalls"
       aria-label="The Vizag Drive In 3D Artisan Kiosks Promenade"
-      className="relative z-10 w-full h-screen bg-[#14110f] text-cream overflow-hidden border-b border-cream/10 select-none flex flex-col justify-between pt-24 pb-6 sm:pb-8"
+      className="relative z-10 w-full min-h-[560px] md:h-screen bg-[#14110f] text-cream overflow-hidden border-b border-cream/10 select-none flex flex-col justify-between pt-16 md:pt-24 pb-6 sm:pb-8"
     >
       {/* 1. Subtle Parallax Watermark Background Typography (Layer 1) */}
       <div
@@ -132,8 +160,8 @@ export default function Stalls() {
             </h2>
           </div>
 
-          <div className="flex items-center gap-4 sm:gap-6 text-xs font-mono tracking-wider text-cream/70">
-            {/* Prev / Next navigation buttons for quick jumping */}
+          <div className="flex items-center gap-3 sm:gap-6 text-xs font-mono tracking-wider text-cream/70">
+            {/* Prev / Next navigation buttons */}
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => handleStepScroll(-1)}
@@ -161,11 +189,13 @@ export default function Stalls() {
         </div>
       </div>
 
-      {/* 3. Main Horizontal Parallax Track of Standalone 1:1 3D Stalls (Layer 3) */}
-      <div className="relative z-10 w-full flex-grow flex items-center overflow-visible py-2 sm:py-4">
+      {/* 3. Main Horizontal Promenade Track of Standalone 1:1 3D Stalls (Layer 3) */}
+      <div className="relative z-10 w-full flex-grow flex items-center overflow-visible py-4 md:py-6">
         <div
           ref={trackRef}
-          className="flex items-end gap-12 sm:gap-16 md:gap-24 pl-8 sm:pl-16 pr-24 sm:pr-40 will-change-transform"
+          onScroll={handleMobileScroll}
+          className="flex items-end gap-6 sm:gap-12 md:gap-24 px-6 sm:px-16 md:pl-16 md:pr-32 will-change-transform overflow-x-auto md:overflow-visible snap-x snap-mandatory md:snap-none"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
         >
           {stalls.map((stall) => {
             const cleanName = stripTodo(stall.name);
@@ -176,7 +206,7 @@ export default function Stalls() {
               <div
                 key={stall.id}
                 onClick={() => setSelectedStall(stall)}
-                className="group relative flex-none w-[260px] sm:w-[320px] md:w-[370px] lg:w-[400px] flex flex-col items-center cursor-pointer transition-transform duration-300 hover:-translate-y-2"
+                className="group relative flex-none w-[240px] sm:w-[290px] md:w-[370px] lg:w-[400px] flex flex-col items-center cursor-pointer transition-transform duration-300 hover:-translate-y-2 snap-center"
               >
                 {/* 3D Stall Container: Strict 1:1 Ratio with NO borders, NO card boxes, NO badges */}
                 <div className="relative w-full aspect-square flex items-center justify-center">
@@ -186,7 +216,7 @@ export default function Stalls() {
                       src={stall.image}
                       alt={`${cleanName} 3D Kiosk`}
                       fill
-                      sizes="(max-width: 640px) 260px, (max-width: 1024px) 370px, 400px"
+                      sizes="(max-width: 640px) 240px, (max-width: 1024px) 370px, 400px"
                       priority={stall.stallNumber === "01" || stall.stallNumber === "02"}
                       className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.65)] group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                     />
@@ -201,17 +231,17 @@ export default function Stalls() {
 
                 {/* Minimal Aesthetic Typography Below the Stall */}
                 <div className="mt-4 w-full text-center sm:text-left flex flex-col items-center sm:items-start">
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-2">
                     <span className="font-mono text-xs font-bold text-[#E00902] tracking-widest">
                       #{stall.stallNumber}
                     </span>
                     <span className="w-1 h-1 rounded-full bg-cream/30" />
-                    <span className="font-mono text-[11px] tracking-wider uppercase text-cream/50">
+                    <span className="font-mono text-[11px] tracking-wider uppercase text-cream/50 truncate max-w-[180px]">
                       {cleanCuisine}
                     </span>
                   </div>
 
-                  <h3 className="mt-1 font-display text-xl sm:text-2xl font-bold tracking-tight text-cream group-hover:text-[#E00902] transition-colors duration-200">
+                  <h3 className="mt-1 font-display text-lg sm:text-2xl font-bold tracking-tight text-cream group-hover:text-[#E00902] transition-colors duration-200">
                     {cleanName}
                   </h3>
 
@@ -243,7 +273,7 @@ export default function Stalls() {
 
           <div className="flex items-center gap-4 text-xs font-mono">
             <span className="text-cream/40 hidden sm:inline">
-              SCROLL DOWN OR USE ARROWS ➔
+              SWIPE OR USE ARROWS ➔
             </span>
             <a
               href="#menu-showcase"

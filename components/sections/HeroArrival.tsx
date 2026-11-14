@@ -12,6 +12,8 @@ export default function HeroArrival() {
   const { progress, isReducedMotion, hasError, activeSrc } = useScrollVideo({
     videoRef,
     triggerRef,
+    scrollLength: "+=220%",
+    mobileScrollLength: "+=100%",
     desktopSrc: "/video/hero-arrival-scrub.mp4",
     mobileSrc: "/video/hero-arrival-scrub-720.mp4",
   });

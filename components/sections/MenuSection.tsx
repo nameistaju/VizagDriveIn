@@ -126,10 +126,20 @@ export default function MenuSection() {
         </div>
 
         {/* Massive Typographic MENU Header */}
-        <div className="container mx-auto max-w-6xl mt-4">
+        <div className="container mx-auto max-w-6xl mt-4 relative">
           <h2 className="font-display text-[22vw] sm:text-[18vw] md:text-[14vw] font-black leading-[0.8] tracking-tighter text-[#E00902] -mb-4 sm:-mb-6 md:-mb-8 uppercase">
             MENU
           </h2>
+          {/* Aesthetic Araku Coffee Branch Sticker */}
+          <div className="absolute right-0 top-0 pointer-events-none z-10 hidden sm:block">
+            <Image
+              src="/stickers/Lush%20Coffee%20Branch%20with%20Ripe%20Cherries.png"
+              alt="Araku Coffee Branch"
+              width={140}
+              height={140}
+              className="object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.35)] rotate-12 select-none"
+            />
+          </div>
         </div>
       </div>
 
@@ -237,6 +247,17 @@ export default function MenuSection() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Aesthetic Tribal Museum Terracotta Dome Sticker */}
+      <div className="absolute right-4 bottom-6 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Tribal%20Museum%20Terracotta%20Dome%20Cutout.png"
+          alt="Tribal Museum Terracotta Dome"
+          width={130}
+          height={130}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.65)] -rotate-6 select-none opacity-90"
+        />
       </div>
     </section>
   );

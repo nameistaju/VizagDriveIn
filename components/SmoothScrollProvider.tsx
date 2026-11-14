@@ -30,7 +30,8 @@ export default function SmoothScrollProvider({
       gestureOrientation: "vertical",
       smoothWheel: true,
       wheelMultiplier: 1,
-      touchMultiplier: 1.5,
+      touchMultiplier: 0,
+      syncTouch: false,
     });
 
     // Synchronize Lenis scroll position with GSAP ScrollTrigger

@@ -70,3 +70,24 @@ html.lenis, html.lenis body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Seamless infinite horizontal food marquee */
+@keyframes foodLoopScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-food-loop {
+  animation: foodLoopScroll 32s linear infinite;
+  will-change: transform;
+}
+
+@media (hover: hover) {
+  .animate-food-loop:hover {
+    animation-play-state: paused;
+  }
+}

@@ -51,6 +51,28 @@ export default function Seating() {
       aria-label="Dining Spaces: Indoor AC and Open-Air Seating"
       className="relative w-full bg-charcoal text-cream py-24 md:py-32 overflow-hidden border-b border-cream/10"
     >
+      {/* Aesthetic Red and White Coastal Lighthouse Sticker */}
+      <div className="absolute left-6 lg:left-14 top-20 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Red%20and%20White%20Coastal%20Lighthouse.png"
+          alt="Vizag Coastal Lighthouse"
+          width={130}
+          height={130}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] rotate-6 select-none opacity-90"
+        />
+      </div>
+
+      {/* Aesthetic Borra Caves Sticker */}
+      <div className="absolute right-6 lg:right-14 bottom-16 pointer-events-none z-10 hidden md:block">
+        <Image
+          src="/stickers/Borra%20Caves%20Illuminated%20Entrance.png"
+          alt="Borra Caves Entrance"
+          width={140}
+          height={140}
+          className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.7)] -rotate-6 select-none opacity-90"
+        />
+      </div>
+
       <div className="container mx-auto px-6 md:px-12 relative z-10 max-w-5xl">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
