@@ -34,23 +34,23 @@ export default function BiryaniShowcase() {
 
       {/* 2. Full-Width Edge-to-Edge Video Canvas with NO border radius and NO text overlay on the video */}
       {isReducedMotion || hasError ? (
-        <div className="relative w-full h-[70vh] sm:h-[85vh] overflow-hidden bg-black">
+        <div className="relative w-full aspect-video sm:h-[55vh] md:h-screen overflow-hidden bg-black border-none rounded-none">
           <Image
             src="/video/biryani-unwrap-poster.webp"
             alt="Signature Banana Leaf Dum Biryani"
             fill
             priority
-            className="object-cover object-center"
+            className="object-contain md:object-cover object-center"
           />
         </div>
       ) : (
         <section
           ref={triggerRef}
           aria-label="Signature Banana Leaf Biryani Scroll Reveal"
-          className="relative w-full h-screen overflow-hidden bg-black select-none"
+          className="relative w-full aspect-video sm:h-[55vh] md:h-screen overflow-hidden bg-black select-none border-none rounded-none flex items-center justify-center"
         >
           {/* Edge-to-edge full-width video with NO border radius */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none">
+          <div className="relative w-full h-full flex items-center justify-center pointer-events-none">
             <video
               ref={videoRef}
               src={activeSrc}
@@ -58,7 +58,7 @@ export default function BiryaniShowcase() {
               muted
               playsInline
               preload="auto"
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-contain md:object-cover object-center"
             />
             {/* Subtle contrast tint */}
             <div className="absolute inset-0 bg-black/10 pointer-events-none" />
