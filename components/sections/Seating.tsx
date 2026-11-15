@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import Image from "next/image";
 import StreetViewEmbed from "@/components/ui/StreetViewEmbed";
 import { STREET_VIEWS } from "@/data/streetview";
+import { HanddrawnHighlight } from "@/components/ui/HanddrawnDecorations";
 
 type SeatingTab = "indoor" | "outdoor";
 
@@ -77,7 +78,10 @@ export default function Seating() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream">
-            Pick your <span className="italic font-normal text-[#E00902]">spot</span>
+            Pick your{" "}
+            <HanddrawnHighlight color="yellow" rotate={-1.5}>
+              <span className="italic font-normal">spot</span>
+            </HanddrawnHighlight>
           </h2>
           <p className="mt-4 text-cream/70 font-sans text-base sm:text-lg leading-relaxed">
             Choose your preferred dining vibe. Step inside our panoramic views before you arrive.

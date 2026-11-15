@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { siteConfig } from "@/data/site";
+import WavyDivider from "@/components/ui/WavyDivider";
 
 interface MenuItem {
   id: string;
@@ -109,17 +110,17 @@ export default function MenuSection() {
     <section
       id="menu-showcase"
       aria-label="The Vizag Drive In Curated Tasting Menu"
-      className="relative w-full bg-[#E00902] text-cream overflow-hidden border-b border-cream/10 select-none"
+      className="relative w-full bg-[#D91A2A] text-cream overflow-hidden select-none"
     >
       {/* Top Header Block matching editorial reference poster */}
-      <div className="w-full bg-[#f3e9dc] text-[#14110f] px-6 sm:px-12 pt-8 pb-4 border-b border-[#14110f]/10">
+      <div className="w-full bg-[#F5F0E8] text-[#14110f] px-6 sm:px-12 pt-8 pb-4">
         <div className="container mx-auto max-w-6xl flex items-center justify-between text-xs font-mono tracking-widest uppercase">
           <span>THE VIZAG DRIVE IN // NIGHT FESTIVAL</span>
           <a
             href={siteConfig.whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="hover:text-[#E00902] underline font-bold transition-colors"
+            className="hover:text-[#D91A2A] underline font-bold transition-colors"
           >
             RESERVE A TABLE ↗
           </a>
@@ -127,21 +128,14 @@ export default function MenuSection() {
 
         {/* Massive Typographic MENU Header */}
         <div className="container mx-auto max-w-6xl mt-4 relative">
-          <h2 className="font-display text-[22vw] sm:text-[18vw] md:text-[14vw] font-black leading-[0.8] tracking-tighter text-[#E00902] -mb-4 sm:-mb-6 md:-mb-8 uppercase">
+          <h2 className="font-display text-[22vw] sm:text-[18vw] md:text-[14vw] font-black leading-[0.8] tracking-tighter text-[#D91A2A] -mb-4 sm:-mb-6 md:-mb-8 uppercase">
             MENU
           </h2>
-          {/* Aesthetic Araku Coffee Branch Sticker */}
-          <div className="absolute right-0 top-0 pointer-events-none z-10 hidden sm:block">
-            <Image
-              src="/stickers/Lush%20Coffee%20Branch%20with%20Ripe%20Cherries.png"
-              alt="Araku Coffee Branch"
-              width={140}
-              height={140}
-              className="object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.35)] rotate-12 select-none"
-            />
-          </div>
         </div>
       </div>
+
+      {/* Reference Organic Wave Divider - Sandy Linen to Scarlet */}
+      <WavyDivider position="top" waveColor="#D91A2A" bgColor="#F5F0E8" />
 
       {/* Main Red Menu Content Area */}
       <div className="container mx-auto max-w-6xl px-6 sm:px-12 py-12 md:py-20">
@@ -250,7 +244,7 @@ export default function MenuSection() {
       </div>
 
       {/* Aesthetic Tribal Museum Terracotta Dome Sticker */}
-      <div className="absolute right-4 bottom-6 pointer-events-none z-10 hidden md:block">
+      <div className="absolute right-4 bottom-14 pointer-events-none z-10 hidden md:block">
         <Image
           src="/stickers/Tribal%20Museum%20Terracotta%20Dome%20Cutout.png"
           alt="Tribal Museum Terracotta Dome"
@@ -259,6 +253,9 @@ export default function MenuSection() {
           className="object-contain drop-shadow-[0_20px_35px_rgba(0,0,0,0.65)] -rotate-6 select-none opacity-90"
         />
       </div>
+
+      {/* Bottom Wave Divider - Scarlet to Charcoal */}
+      <WavyDivider position="bottom" waveColor="#D91A2A" bgColor="#14110f" />
     </section>
   );
 }

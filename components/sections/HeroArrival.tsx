@@ -4,6 +4,7 @@ import React, { useRef } from "react";
 import Image from "next/image";
 import { siteConfig } from "@/data/site";
 import { useScrollVideo } from "@/lib/useScrollVideo";
+import { HanddrawnUnderline } from "@/components/ui/HanddrawnDecorations";
 
 export default function HeroArrival() {
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -158,14 +159,17 @@ export default function HeroArrival() {
         }}
       >
         <h1 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-cream">
-          The Vizag <span className="italic font-normal text-[#E00902]">Drive In</span>
+          The Vizag{" "}
+          <HanddrawnUnderline color="red">
+            <span className="italic font-normal text-[#D91A2A]">Drive In</span>
+          </HanddrawnUnderline>
         </h1>
 
         {/* Hero CTAs */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a
             href="#visit"
-            className="px-6 py-3 rounded-xl bg-cream/10 hover:bg-cream/20 text-cream border border-cream/20 font-medium text-xs sm:text-sm tracking-wider uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#E00902]"
+            className="px-6 py-3 rounded-xl bg-cream/10 hover:bg-cream/20 text-cream border border-cream/20 font-medium text-xs sm:text-sm tracking-wider uppercase transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D91A2A]"
             aria-label="Get Directions to The Vizag Drive In"
           >
             Get Directions
@@ -228,16 +232,9 @@ export default function HeroArrival() {
         }}
       >
         <h2 className="font-display text-xl sm:text-3xl md:text-4xl font-bold tracking-tight text-cream">
-          Sit down. <span className="italic font-normal text-[#E00902]">Eat well.</span>
+          Sit down. <span className="italic font-normal text-[#D91A2A]">Eat well.</span>
         </h2>
       </div>
-
-      {/* Solid bottom line (No gradients) */}
-      <div
-        className="absolute bottom-0 left-0 h-[2px] bg-[#E00902] z-30 transition-all duration-75 pointer-events-none"
-        style={{ width: `${Math.min(100, Math.max(0, progress * 100))}%` }}
-        aria-hidden="true"
-      />
     </section>
   );
 }

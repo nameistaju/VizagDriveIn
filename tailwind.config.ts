@@ -10,14 +10,21 @@ const config: Config = {
     extend: {
       colors: {
         charcoal: "#14110f",
-        cream: "#f3e9dc",
-        amber: "#E00902", // Replaced orange with red #E00902
-        chili: "#E00902",
-        teal: "#2ee6c8",
+        cream: "#F5F0E8", // Sandy Linen (#F5F0E8)
+        sandy: "#F5F0E8",
+        "sandy-linen": "#F5F0E8",
+        scarlet: "#D91A2A", // Scarlet Bikini (#D91A2A)
+        "scarlet-bikini": "#D91A2A",
+        aegean: "#1A6FBF", // Aegean Sky (#1A6FBF)
+        "aegean-sky": "#1A6FBF",
+        amber: "#D91A2A",
+        chili: "#D91A2A",
+        teal: "#1A6FBF",
       },
       fontFamily: {
         display: ["var(--font-display)", "serif"],
         sans: ["var(--font-sans)", "sans-serif"],
+        bakso: ["var(--font-bakso)", "cursive", "sans-serif"],
       },
       boxShadow: {
         "glow-amber": "0 0 35px -8px rgba(224, 9, 2, 0.4)",

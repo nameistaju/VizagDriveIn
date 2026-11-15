@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import { useScrollVideo } from "@/lib/useScrollVideo";
+import { HanddrawnUnderline } from "@/components/ui/HanddrawnDecorations";
 
 export default function LeafFeastShowcase() {
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -21,7 +22,7 @@ export default function LeafFeastShowcase() {
   return (
     <div id="leaf-feast-showcase" className="w-full bg-charcoal text-cream flex flex-col">
       {/* 1. Header placed nicely ABOVE the video */}
-      <div className="w-full bg-charcoal text-center py-14 sm:py-16 md:py-20 px-6 border-t border-b border-cream/10 relative z-20">
+      <div className="w-full bg-charcoal text-center py-14 sm:py-16 md:py-20 px-6 relative z-20">
         {/* Aesthetic Ananthagiri Hills Waterfall Sticker */}
         <div className="absolute right-6 lg:right-16 top-1/2 -translate-y-1/2 pointer-events-none z-10 hidden md:block">
           <Image
@@ -33,11 +34,14 @@ export default function LeafFeastShowcase() {
           />
         </div>
 
-        <span className="text-xs font-mono uppercase tracking-widest text-[#E00902] block mb-3">
+        <span className="text-sm sm:text-base font-bakso tracking-wider text-[#D91A2A] block mb-2">
           Traditional Coastal Dining // The Ritual
         </span>
         <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream">
-          The Banana Leaf <span className="italic font-normal text-[#E00902]">Feast</span>
+          The Banana Leaf{" "}
+          <HanddrawnUnderline color="red">
+            <span className="italic font-normal text-[#D91A2A]">Feast</span>
+          </HanddrawnUnderline>
         </h2>
         <p className="mt-3 text-sm sm:text-base font-sans text-cream/70 max-w-xl mx-auto leading-relaxed">
           Spiced coastal delicacies and steaming hot pulavs served traditionally on fresh plantation banana leaves under the open coastal night sky.
@@ -75,13 +79,6 @@ export default function LeafFeastShowcase() {
             {/* Subtle contrast tint */}
             <div className="absolute inset-0 bg-black/10 pointer-events-none" />
           </div>
-
-          {/* Clean minimal bottom scrub progress bar (No gradients, solid red) */}
-          <div
-            className="absolute bottom-0 left-0 h-[3px] bg-[#E00902] z-30 transition-all duration-75 pointer-events-none"
-            style={{ width: `${Math.min(100, Math.max(0, progress * 100))}%` }}
-            aria-hidden="true"
-          />
         </section>
       )}
     </div>

@@ -5,22 +5,25 @@
 @layer base {
   :root {
     --color-charcoal: #14110f;
-    --color-cream: #f3e9dc;
-    --color-amber: #E00902;
-    --color-chili: #E00902;
-    --color-teal: #2ee6c8;
+    --color-cream: #F5F0E8;
+    --color-sandy: #F5F0E8;
+    --color-scarlet: #D91A2A;
+    --color-aegean: #1A6FBF;
+    --color-amber: #D91A2A;
+    --color-chili: #D91A2A;
+    --color-teal: #1A6FBF;
   }
 
   html {
     scroll-behavior: auto;
     background-color: #14110f;
-    color: #f3e9dc;
+    color: #F5F0E8;
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='%23FFC700' stroke='%2314110f' stroke-width='1.5'%3E%3Cpath d='M3 3l7 18 3-7 7-3L3 3z'/%3E%3C/svg%3E"), auto;
   }
 
   body {
     background-color: #14110f;
-    color: #f3e9dc;
+    color: #F5F0E8;
     font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
@@ -33,7 +36,7 @@
   }
 
   ::selection {
-    background-color: #E00902;
+    background-color: #D91A2A;
     color: #ffffff;
   }
 }
@@ -90,4 +93,19 @@ html.lenis, html.lenis body {
   .animate-food-loop:hover {
     animation-play-state: paused;
   }
+}
+
+/* Subtle floating food animation */
+@keyframes foodFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.8deg);
+  }
+}
+
+.animate-food-float {
+  animation: foodFloat 6s ease-in-out infinite;
+  will-change: transform;
 }

@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import StreetViewEmbed from "@/components/ui/StreetViewEmbed";
 import { STREET_VIEWS } from "@/data/streetview";
+import { HanddrawnUnderline } from "@/components/ui/HanddrawnDecorations";
 
 export default function PlayZone() {
   const poolWhatsappUrl = `https://wa.me/91XXXXXXXXXX?text=${encodeURIComponent(
@@ -46,7 +47,10 @@ export default function PlayZone() {
         {/* Section Header */}
         <div className="max-w-2xl mb-14">
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream">
-            The Play <span className="italic font-normal text-teal">Zone</span>
+            The Play{" "}
+            <HanddrawnUnderline color="teal">
+              <span className="italic font-normal text-teal">Zone</span>
+            </HanddrawnUnderline>
           </h2>
           <p className="mt-3 text-cream/70 font-sans text-base sm:text-lg leading-relaxed">
             Take a break between courses or bring your crew for competitive night matches.

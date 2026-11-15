@@ -3,6 +3,7 @@
 import React, { useRef } from "react";
 import Image from "next/image";
 import { useScrollVideo } from "@/lib/useScrollVideo";
+import { HanddrawnUnderline } from "@/components/ui/HanddrawnDecorations";
 
 export default function BiryaniShowcase() {
   const triggerRef = useRef<HTMLDivElement>(null);
@@ -21,12 +22,15 @@ export default function BiryaniShowcase() {
   return (
     <div id="biryani-showcase" className="w-full bg-charcoal text-cream flex flex-col">
       {/* 1. Header nicely placed ABOVE the video with "Our Special Dish" */}
-      <div className="w-full bg-charcoal text-center py-14 sm:py-16 md:py-20 px-6 border-t border-b border-cream/10 relative z-20">
-        <span className="text-xs font-mono uppercase tracking-widest text-[#E00902] block mb-3">
+      <div className="w-full bg-charcoal text-center py-14 sm:py-16 md:py-20 px-6 relative z-20">
+        <span className="text-sm sm:text-base font-bakso tracking-wider text-[#D91A2A] block mb-2">
           The Coastal Dum Ritual
         </span>
         <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream">
-          Our Special <span className="italic font-normal text-[#E00902]">Dish</span>
+          Our Special{" "}
+          <HanddrawnUnderline color="red">
+            <span className="italic font-normal text-[#D91A2A]">Dish</span>
+          </HanddrawnUnderline>
         </h2>
         <p className="mt-3 text-sm sm:text-base font-sans text-cream/70 max-w-xl mx-auto leading-relaxed">
           Slow-cooked dum biryani sealed inside fresh coastal banana leaves, locking in rich royal saffron, aged basmati aromas, and melt-in-mouth tender cuts.
@@ -64,13 +68,6 @@ export default function BiryaniShowcase() {
             {/* Subtle contrast tint */}
             <div className="absolute inset-0 bg-black/10 pointer-events-none" />
           </div>
-
-          {/* Clean minimal bottom scrub progress bar (No gradients, solid red) */}
-          <div
-            className="absolute bottom-0 left-0 h-[3px] bg-[#E00902] z-30 transition-all duration-75 pointer-events-none"
-            style={{ width: `${Math.min(100, Math.max(0, progress * 100))}%` }}
-            aria-hidden="true"
-          />
         </section>
       )}
     </div>

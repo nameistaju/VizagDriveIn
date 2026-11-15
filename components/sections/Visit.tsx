@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { siteConfig } from "@/data/site";
+import { HanddrawnUnderline } from "@/components/ui/HanddrawnDecorations";
 
 export default function Visit() {
   return (
@@ -48,7 +49,10 @@ export default function Visit() {
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <h2 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-cream">
-            Plan Your <span className="italic font-normal text-[#E00902]">Evening</span>
+            Plan Your{" "}
+            <HanddrawnUnderline color="red">
+              <span className="italic font-normal text-[#D91A2A]">Evening</span>
+            </HanddrawnUnderline>
           </h2>
           <p className="mt-4 text-cream/70 font-sans text-base sm:text-lg leading-relaxed">
             Conveniently located in Visakhapatnam with dedicated vehicle drive-in and parking.

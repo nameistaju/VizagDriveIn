@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { HanddrawnUnderline } from "@/components/ui/HanddrawnDecorations";
 
 interface StatusInfo {
   isOpen: boolean;
@@ -126,7 +127,7 @@ export default function IntroStrip() {
     if (prefersReducedMotion) {
       wordsRef.current.forEach((span, i) => {
         if (!span) return;
-        span.style.color = WORDS[i].isAccent ? "#E00902" : "#f3e9dc";
+        span.style.color = WORDS[i].isAccent ? "#D91A2A" : "#F5F0E8";
         span.style.opacity = "1";
       });
       return;
@@ -167,7 +168,7 @@ export default function IntroStrip() {
         tl.to(
           wordSpan,
           {
-            color: isAccent ? "#E00902" : "#f3e9dc",
+            color: isAccent ? "#D91A2A" : "#F5F0E8",
             opacity: 1,
             ease: "none",
             duration: 0.45,
@@ -204,7 +205,7 @@ export default function IntroStrip() {
       ref={sectionRef}
       id="intro-strip"
       aria-label="Welcome and Experience Concept"
-      className="relative z-20 w-full min-h-screen bg-[#14110f] text-cream border-y border-cream/10 flex flex-col justify-between py-12 sm:py-16 md:py-20 overflow-hidden select-none"
+      className="relative z-20 w-full min-h-screen bg-[#14110f] text-cream flex flex-col justify-between py-12 sm:py-16 md:py-20 overflow-hidden select-none"
     >
       {/* Aesthetic Landmark Stickers (Used as-is, no borders/cards) */}
       <div className="absolute left-4 lg:left-12 top-28 pointer-events-none z-10 hidden md:block">
@@ -236,14 +237,14 @@ export default function IntroStrip() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal" />
               </>
             ) : (
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E00902]" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#D91A2A]" />
             )}
           </span>
           <span
             className={
               status.isOpen
                 ? "text-teal font-semibold uppercase"
-                : "text-[#E00902] font-semibold uppercase"
+                : "text-[#D91A2A] font-semibold uppercase"
             }
           >
             {status.statusText}
@@ -271,13 +272,15 @@ export default function IntroStrip() {
                 color: "rgba(243, 233, 220, 0.2)",
                 opacity: 0.35,
               }}
-              className={`inline-block mr-[0.25em] will-change-[color,opacity] ${
-                word.isAccent
-                  ? "italic font-normal underline decoration-[#E00902]/30 underline-offset-8"
-                  : ""
-              }`}
+              className="inline-block mr-[0.25em] will-change-[color,opacity]"
             >
-              {word.text}
+              {word.isAccent ? (
+                <HanddrawnUnderline color="red">
+                  <span className="italic font-normal text-[#D91A2A]">{word.text}</span>
+                </HanddrawnUnderline>
+              ) : (
+                word.text
+              )}
             </span>
           ))}
         </p>
@@ -297,14 +300,6 @@ export default function IntroStrip() {
           ))}
         </div>
       </div>
-
-      {/* Subtle bottom progress bar indicating completion before unlock */}
-      <div
-        ref={progressBarRef}
-        className="absolute bottom-0 left-0 h-[2px] bg-[#E00902] z-30 transition-all duration-75 pointer-events-none"
-        style={{ width: "0%" }}
-        aria-hidden="true"
-      />
     </section>
   );
 }

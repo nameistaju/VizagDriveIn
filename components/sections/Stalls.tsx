@@ -134,7 +134,7 @@ export default function Stalls() {
       ref={sectionRef}
       id="stalls"
       aria-label="The Vizag Drive In 3D Artisan Kiosks Promenade"
-      className="relative z-10 w-full min-h-[560px] md:h-screen bg-[#14110f] text-cream overflow-hidden border-b border-cream/10 select-none flex flex-col justify-between pt-16 md:pt-24 pb-6 sm:pb-8"
+      className="relative z-10 w-full min-h-[560px] md:h-screen bg-[#14110f] text-cream overflow-hidden select-none flex flex-col justify-between pt-16 md:pt-24 pb-6 sm:pb-8"
     >
       {/* 1. Subtle Parallax Watermark Background Typography (Layer 1) */}
       <div

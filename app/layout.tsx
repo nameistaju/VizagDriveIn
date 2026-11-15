@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -8,38 +7,43 @@ import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import HeroLoader from "@/components/HeroLoader";
 import GrainOverlay from "@/components/GrainOverlay";
 
-const fontDisplay = Playfair_Display({
-  subsets: ["latin"],
-  variable: "--font-display",
-  display: "swap",
-  style: ["normal", "italic"],
-  weight: ["400", "600", "700", "900"],
-});
-
-const fontUbuntu = localFont({
+const fontNewKansas = localFont({
   src: [
     {
-      path: "../public/fonts/image-1.woff2",
-      weight: "400",
+      path: "../public/fonts/NewKansas-Medium.woff2",
+      weight: "500",
       style: "normal",
     },
     {
-      path: "../public/fonts/image-2.woff2",
-      weight: "400",
-      style: "italic",
-    },
-    {
-      path: "../public/fonts/image-3.woff2",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/image-4.woff2",
-      weight: "700",
+      path: "../public/fonts/NewKansas-MediumItalic.woff2",
+      weight: "500",
       style: "italic",
     },
   ],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const fontFilsonSoft = localFont({
+  src: [
+    {
+      path: "../public/fonts/FilsonSoft-Regular.woff",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/FilsonSoft-Medium.woff",
+      weight: "500",
+      style: "normal",
+    },
+  ],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const fontBaksoSapi = localFont({
+  src: "../public/fonts/BaksoSapi.otf",
+  variable: "--font-bakso",
   display: "swap",
 });
 
@@ -70,7 +74,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${fontDisplay.variable} ${fontUbuntu.variable} scroll-smooth`}
+      className={`${fontNewKansas.variable} ${fontFilsonSoft.variable} ${fontBaksoSapi.variable} scroll-smooth`}
     >
       <body className="bg-charcoal text-cream min-h-screen relative antialiased selection:bg-[#E00902] selection:text-white">
         <SmoothScrollProvider>
