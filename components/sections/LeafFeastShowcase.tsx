@@ -21,8 +21,8 @@ export default function LeafFeastShowcase() {
 
   return (
     <div id="leaf-feast-showcase" className="w-full bg-charcoal text-cream flex flex-col">
-      {/* 1. Header placed nicely ABOVE the video */}
-      <div className="w-full bg-charcoal text-center py-14 sm:py-16 md:py-20 px-6 relative z-20">
+      {/* 1. Desktop Header placed nicely ABOVE the video */}
+      <div className="hidden md:block w-full bg-charcoal text-center py-16 md:py-20 px-6 relative z-20">
         {/* Aesthetic Ananthagiri Hills Waterfall Sticker */}
         <div className="absolute right-6 lg:right-16 top-1/2 -translate-y-1/2 pointer-events-none z-10 hidden md:block">
           <Image
@@ -48,15 +48,28 @@ export default function LeafFeastShowcase() {
         </p>
       </div>
 
-      {/* 2. Full-Width Edge-to-Edge Video Canvas with NO border radius */}
+      {/* 2. Full-Width Edge-to-Edge Video Canvas with uncropped mobile framing */}
       {isReducedMotion || hasError ? (
         <div className="relative w-full h-screen overflow-hidden bg-black border-none rounded-none">
+          {/* Mobile Overlay Header occupying the top empty space */}
+          <div className="absolute top-0 left-0 right-0 z-30 pt-8 px-6 text-center pointer-events-none md:hidden flex flex-col items-center">
+            <span className="text-xs font-bakso tracking-wider text-[#D91A2A] block mb-1 drop-shadow">
+              Traditional Coastal Dining // The Ritual
+            </span>
+            <h2 className="font-display text-2xl font-bold tracking-tight text-cream drop-shadow">
+              The Banana Leaf{" "}
+              <HanddrawnUnderline color="red">
+                <span className="italic font-normal text-[#D91A2A]">Feast</span>
+              </HanddrawnUnderline>
+            </h2>
+          </div>
+
           <Image
             src="/video/newvedio-poster.webp"
             alt="Authentic Banana Leaf Feast"
             fill
             priority
-            className="object-cover object-center"
+            className="object-contain md:object-cover object-center"
           />
         </div>
       ) : (
@@ -65,8 +78,41 @@ export default function LeafFeastShowcase() {
           aria-label="Authentic Banana Leaf Feast Scroll Presentation"
           className="relative w-full h-screen overflow-hidden bg-black select-none"
         >
-          {/* Edge-to-edge full-width video with NO border radius */}
-          <div className="absolute inset-0 w-full h-full pointer-events-none">
+          {/* Mobile Overlay Header (Occupies the top space seamlessly) */}
+          <div className="absolute top-0 left-0 right-0 z-30 pt-10 px-6 text-center pointer-events-none md:hidden flex flex-col items-center">
+            <span className="text-xs font-bakso tracking-wider text-[#D91A2A] block mb-1.5 drop-shadow">
+              Traditional Coastal Dining // The Ritual
+            </span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-cream drop-shadow-md">
+              The Banana Leaf{" "}
+              <HanddrawnUnderline color="red">
+                <span className="italic font-normal text-[#D91A2A]">Feast</span>
+              </HanddrawnUnderline>
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm font-sans text-cream/75 max-w-xs mx-auto leading-relaxed drop-shadow">
+              Delicacies served traditionally on fresh plantation banana leaves.
+            </p>
+          </div>
+
+          {/* Mobile Bottom Scroll Hint (Occupies the bottom space seamlessly) */}
+          <div className="absolute bottom-6 left-0 right-0 z-30 text-center pointer-events-none md:hidden">
+            <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-cream/60 bg-white/5 border border-white/10 px-3 py-1 rounded-full backdrop-blur-md">
+              Scroll to Explore ↓
+            </span>
+          </div>
+
+          {/* Edge-to-edge full-width video with uncropped mobile framing */}
+          <div className="absolute inset-0 w-full h-full pointer-events-none flex items-center justify-center">
+            {/* Ambient blurred backdrop on mobile so food colors fill edges */}
+            <video
+              src={activeSrc}
+              muted
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover object-center blur-2xl opacity-40 scale-110 pointer-events-none md:hidden"
+            />
+            {/* Main crisp video (object-contain on mobile, object-cover on desktop) */}
             <video
               ref={videoRef}
               src={activeSrc}
@@ -74,10 +120,10 @@ export default function LeafFeastShowcase() {
               muted
               playsInline
               preload="auto"
-              className="w-full h-full object-cover object-center"
+              className="relative z-10 w-full h-full object-contain md:object-cover object-center"
             />
             {/* Subtle contrast tint */}
-            <div className="absolute inset-0 bg-black/10 pointer-events-none" />
+            <div className="absolute inset-0 bg-black/15 pointer-events-none z-20" />
           </div>
         </section>
       )}
